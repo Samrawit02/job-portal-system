@@ -4,7 +4,7 @@ package com.samrit.job.controller;
 import com.samrit.job.domain.UserRole;
 import com.samrit.job.dto.ApiMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -5,12 +5,14 @@ import com.samrit.job.domain.JobStatus;
 import com.samrit.job.domain.JobType;
 import com.samrit.job.domain.WorkMode;
 import com.samrit.job.model.embeddable.JobLocation;
+import com.samrit.job.model.embeddable.SalaryRange;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 
 @Entity
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "jobs")
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,17 +33,23 @@ public class Job {
     @Column(nullable = false)
     private String requirements;
     @Column(nullable = false)
+    private String responsibilities;
+    @Column(nullable = false)
     private String benefits;
     @Column(nullable = false)
     private Long companyId;
-
-//    private JobCategory category;
-//    private Set<JobSkill> skills;
-//    private Set<JobTag> tags;
+    @Column(nullable = false)
+    private Long employerId;
+    @ManyToOne
+    private JobCategory category;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<JobSkill> skills;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<JobTag> tags;
     @Embedded
     private JobLocation location;
-//    @Embedded
-////    private SalaryRange salaryRange;
+    @Embedded
+    private SalaryRange salaryRange;
     @Enumerated(EnumType.STRING)
     private JobType jobType;
 
