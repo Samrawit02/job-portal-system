@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ResumeController {
 
-    private ResumeService resumeService;
+    private final ResumeService resumeService;
 
     @PostMapping
     public ResponseEntity<ResumeResponse>createResume(

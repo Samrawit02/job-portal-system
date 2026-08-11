@@ -1,5 +1,6 @@
-package com.samrit.job.security;
+package com.samrit.job.config;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.Authentication;
@@ -40,4 +41,12 @@ public class JwtProvider {
         return  String.join(",", auths);
 
     }
+    public String getEmailFromJwtToken(String jwt){
+        jwt= jwt.substring(7);
+        Claims claims = Jwts.parser().verifyWith(secretKey).build()
+                .parseSignedClaims(jwt)
+                .getPayload();
+        return String.valueOf(claims.get("email"));
+    }
+
 }

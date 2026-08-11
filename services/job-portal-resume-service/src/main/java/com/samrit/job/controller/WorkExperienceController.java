@@ -39,7 +39,7 @@ public class WorkExperienceController {
         return ResponseEntity.ok(workExperienceService.getWorkExperiences(resumeId));
     }
 
-    @PutMapping("/{experienceId")
+    @PutMapping("/{experienceId}")
     public ResponseEntity<WorkExperienceResponse> updateWorkExperience(
             @PathVariable Long resumeId,
             @PathVariable Long workExperienceId,

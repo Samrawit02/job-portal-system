@@ -31,7 +31,7 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyResponse createCompany(Long ownerId, CompanyRequest request) throws Exception {
 
         if(companyRepo.existsByOwnerId(ownerId)){
-            throw  new Exception("You already have a company registred. " +
+            throw  new Exception("You already have a company registered. " +
                     "Only one company per account is allowed.");
         }
         if(companyRepo.existsByName(request.getName())){

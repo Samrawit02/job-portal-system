@@ -46,7 +46,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectResponse> getAllProjects(Long resumeId) {
-        return projectRepo.findByResume_IdAndOrderByDisplayOrderAsc(resumeId)
+        return projectRepo.findByResume_IdOrderByDisplayOrderAsc(resumeId)
                 .stream()
                 .map(ResumeMapper::toProjectResponse)
                 .collect(Collectors.toList());

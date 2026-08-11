@@ -38,7 +38,7 @@ public class LanguageServiceImpl implements LanguageService {
 
     @Override
     public List<LanguageResponse> getLanguages(Long resumeId) {
-        return languageRepo.findByResume_IdAndOrderByDisplayOrderAsc(resumeId)
+        return languageRepo.findByResume_IdOrderByDisplayOrderAsc(resumeId)
                 .stream().map(
                         ResumeMapper::toLanguageResponse
                 )

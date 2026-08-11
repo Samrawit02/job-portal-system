@@ -9,11 +9,12 @@ import com.samrit.job.payload.LoginRequest;
 import com.samrit.job.payload.SignupRequest;
 import com.samrit.job.repo.UserRepository;
 import com.samrit.job.security.CustomUserDetailsService;
-import com.samrit.job.security.JwtProvider;
+import com.samrit.job.config.JwtProvider;
 import com.samrit.job.service.AuthService;
 import lombok.RequiredArgsConstructor;
 
 
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -94,7 +95,7 @@ public class  AuthServiceImpl implements AuthService {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
 
         if(!passwordEncoder.matches(password, userDetails.getPassword())){
-            throw new Exception("Invalid password");
+            throw new BadCredentialsException("Invalid password");
         }
         return  new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }

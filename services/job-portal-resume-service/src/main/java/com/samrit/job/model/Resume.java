@@ -3,6 +3,7 @@ package com.samrit.job.model;
 
 import com.samrit.job.domain.ResumeTemplate;
 import com.samrit.job.domain.ResumeVisibility;
+import com.samrit.job.domain.SkillCategory;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -38,6 +39,10 @@ public class Resume {
     private String summary;
     private Integer completionScore=0;
     private Boolean isActive= true;
+
+    private SkillCategory skillCategory;
+//    private Education education;
+    
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;

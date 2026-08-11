@@ -4,14 +4,11 @@ package com.samrit.job.Mapper;
 import com.samrit.job.dto.*;
 import com.samrit.job.model.*;
 import com.samrit.job.payload.ResumeSkillRequest;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.UtilityClass;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
+@UtilityClass
 public class ResumeMapper {
 
     public  static PersonalInfoResponse toPersonalInfoResponse(PersonalInfo personalInfo){

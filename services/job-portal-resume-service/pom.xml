@@ -11,7 +11,7 @@
 	<artifactId>job-portal-resume-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name> job-portal-resume-service</name>
-	<description>Service fro managing candidate resumes, including resume builder,
+	<description>Service for managing candidate resumes, including resume builder,
 	multiple versions, and resume parsing</description>
 
 	<dependencies>
@@ -43,6 +43,10 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
