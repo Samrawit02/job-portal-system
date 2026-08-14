@@ -14,10 +14,7 @@ import com.samrit.job.model.JobTag;
 import com.samrit.job.model.embeddable.JobLocation;
 import com.samrit.job.model.embeddable.SalaryRange;
 import com.samrit.job.payload.JobSearchRequest;
-import com.samrit.job.service.JobCategoryService;
-import com.samrit.job.service.JobService;
-import com.samrit.job.service.JobSkillService;
-import com.samrit.job.service.JobTagService;
+import com.samrit.job.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +33,7 @@ public class JobServiceImpl implements JobService {
     private final JobCategoryService categoryService;
     private final JobSkillService skillService;
     private final JobTagService tagService;
+    private final CompanyService companyService;
 
     @Override
     public JobResponse createJob(Long employerId, JobRequest jobRequest) throws Exception {
@@ -47,8 +45,8 @@ public class JobServiceImpl implements JobService {
         Set<JobTag> tags = jobRequest.getTagIds()!=null ?
                 tagService.getTagsByIds(jobRequest.getTagIds())
                 : Collections.emptySet();
-// todo: fetch company by employ id
-        Long companyId= 1L;
+        CompanyResponse companyResponse = companyService.getCompanyProfile(employerId);
+        Long companyId= companyResponse.getId();
 
         Job job = Job.builder()
                 .title(jobRequest.getTitle())
@@ -72,8 +70,7 @@ public class JobServiceImpl implements JobService {
                 .active(true)
                 .status(JobStatus.DRAFT)
                 .build();
-        Job saveJob= jobRepo.save(job);
-        return convertToJobResponse(job);
+        return convertToJobResponse(jobRepo.save(job));
 
     }
 
@@ -142,14 +139,14 @@ public class JobServiceImpl implements JobService {
     public List<JobResponse> getJobs(JobSearchRequest request) {
         List<Job> jobs = jobRepo.findAll(JobSpecification.build(request));
         return jobs.stream()
-                .map(JobServiceImpl::convertToJobResponse).collect(Collectors.toList());
+                .map(this::convertToJobResponse).collect(Collectors.toList());
     }
 
     @Override
     public List<JobResponse> getJobsByCompany(Long companyId) {
         List<Job> jobs = jobRepo.findByCompanyId(companyId);
         return jobs.stream()
-                .map(JobServiceImpl::convertToJobResponse).collect(Collectors.toList());
+                .map(this::convertToJobResponse).collect(Collectors.toList());
     }
 
     @Override
@@ -192,16 +189,18 @@ public class JobServiceImpl implements JobService {
     public List<JobResponse> getAllJobsAdmin() {
         return jobRepo.findAll()
                 .stream()
-                .map(JobServiceImpl::convertToJobResponse)
+                .map(this::convertToJobResponse)
+//                .map(JobServiceImpl::convertToJobResponse)
                 .collect(Collectors.toList());
     }
 
-    public static JobResponse convertToJobResponse(Job savedJob) {
+    public JobResponse convertToJobResponse(Job savedJob) {
 
         // todo: fetch company response
-        CompanyResponse companyResponse = CompanyResponse.builder()
-                .id(savedJob.getCompanyId())
-                .build();
+        CompanyResponse companyResponse = companyService.getCompanyProfile(savedJob.getEmployerId());
+////        CompanyResponse companyResponse = CompanyResponse.builder()
+//                .id(savedJob.getCompanyId())
+//                .build();
 
         return JobMapper.ToJobResponse(savedJob, companyResponse);
     }
