@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 @RequiredArgsConstructor
 public class ResumeServiceImpl implements ResumeService {
@@ -24,7 +23,7 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public ResumeResponse createResume(Long candidateId, ResumeRequest request) {
 
-        if(Boolean.TRUE.equals(request.getIsDefault())){
+        if (Boolean.TRUE.equals(request.getIsDefault())) {
             resumeRepo.findByCandidateIdAndIsDefaultTrueAndIsActiveTrue(candidateId)
                     .ifPresent(existing -> {
                         existing.setIsDefault(false);
@@ -52,55 +51,54 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public List<ResumeResponse> getMyResumes(Long candidateId) {
-        return  resumeRepo.findByCandidateIdAndIsActiveTrue(candidateId)
+        return resumeRepo.findByCandidateIdAndIsActiveTrue(candidateId)
                 .stream()
                 .map(this::buildFullResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ResumeResponse updatePersonalInformation(Long resumeId, Long candidateId, PersonalInfoResponse personalInfo) throws Exception {
+    public ResumeResponse updatePersonalInformation(Long resumeId, Long candidateId, PersonalInfoResponse personalInfo)
+            throws Exception {
         Resume resume = getResumeEntityById(resumeId);
         asserOwner(resume, candidateId);
 
         PersonalInfo info = resume.getPersonalInfo();
-        if(info == null){
+        if (info == null) {
             info = new PersonalInfo();
         }
-        if(personalInfo.getFirstName()!=null){
+        if (personalInfo.getFirstName() != null) {
             info.setFirstName(personalInfo.getFirstName());
         }
-        if(personalInfo.getLastName()!=null){
+        if (personalInfo.getLastName() != null) {
             info.setLastName(personalInfo.getLastName());
         }
-        if(personalInfo.getEmail()!=null){
+        if (personalInfo.getEmail() != null) {
             info.setEmail(personalInfo.getEmail());
         }
-        if(personalInfo.getPhone()!=null){
+        if (personalInfo.getPhone() != null) {
             info.setPhone(personalInfo.getPhone());
         }
-        if(personalInfo.getPhone()!=null){
-            info.setPhone(personalInfo.getPhone());
-        }
-        if(personalInfo.getHeadline()!=null){
+
+        if (personalInfo.getHeadline() != null) {
             info.setHeadline(personalInfo.getHeadline());
         }
-        if(personalInfo.getCity()!=null){
+        if (personalInfo.getCity() != null) {
             info.setCity(personalInfo.getCity());
         }
-        if(personalInfo.getCountry()!=null){
+        if (personalInfo.getCountry() != null) {
             info.setCountry(personalInfo.getCountry());
         }
-        if(personalInfo.getLinkedinUrl()!=null){
+        if (personalInfo.getLinkedinUrl() != null) {
             info.setLinkedinUrl(personalInfo.getLinkedinUrl());
         }
-        if(personalInfo.getGithubUrl()!=null){
+        if (personalInfo.getGithubUrl() != null) {
             info.setGithubUrl(personalInfo.getGithubUrl());
         }
-        if(personalInfo.getPortfolioUrl()!=null){
+        if (personalInfo.getPortfolioUrl() != null) {
             info.setPortfolioUrl(personalInfo.getPortfolioUrl());
         }
-        if(personalInfo.getWebsiteUrl()!=null){
+        if (personalInfo.getWebsiteUrl() != null) {
             info.setWebsiteUrl(personalInfo.getWebsiteUrl());
         }
         resume.setPersonalInfo(info);
@@ -126,8 +124,7 @@ public class ResumeServiceImpl implements ResumeService {
                         existing -> {
                             existing.setIsDefault(false);
                             resumeRepo.save(existing);
-                        }
-                );
+                        });
         resume.setIsDefault(true);
         return buildFullResponse(resumeRepo.save(resume));
     }
@@ -141,19 +138,19 @@ public class ResumeServiceImpl implements ResumeService {
         buildFullResponse(resumeRepo.save(resume));
 
     }
+
     @Override
     public Resume getResumeEntityById(Long resumeId) throws Exception {
         return resumeRepo.findById(resumeId).orElseThrow(
-                ()-> new Exception(" resume not found with id" +resumeId)
-        );
+                () -> new Exception(" resume not found with id" + resumeId));
     }
 
-    private ResumeResponse buildFullResponse(Resume resume){
+    private ResumeResponse buildFullResponse(Resume resume) {
         return ResumeMapper.toResumeResponse(resume);
     }
 
     private void asserOwner(Resume resume, Long candidateId) throws Exception {
-        if(!resume.getCandidateId().equals(candidateId)){
+        if (!resume.getCandidateId().equals(candidateId)) {
             throw new Exception("resume not found with the given id");
         }
     }

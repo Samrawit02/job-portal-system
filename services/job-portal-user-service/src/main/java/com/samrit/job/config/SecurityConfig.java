@@ -23,33 +23,32 @@ import java.util.List;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain (HttpSecurity http) {
-      return   http.csrf(AbstractHttpConfigurer::disable)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+        return http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(
-                        SessionCreationPolicy.STATELESS
-                ))
-                .authorizeHttpRequests(auth-> auth
+                        SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
-                
                 )
-              .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
-              .csrf(AbstractHttpConfigurer::disable)
-              .cors(cors-> cors.configurationSource(corsConfigurationSource()))
-              .httpBasic(Customizer.withDefaults())
-              .formLogin(Customizer.withDefaults())
-              .build();
+                .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .httpBasic(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
+                .build();
 
     }
 
     private CorsConfigurationSource corsConfigurationSource() {
         return new CorsConfigurationSource() {
             @Override
-            public  CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-                CorsConfiguration cfg= new  CorsConfiguration();
+            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                CorsConfiguration cfg = new CorsConfiguration();
                 cfg.setAllowedOrigins(Collections.singletonList("*"));
                 cfg.setAllowedMethods(Collections.singletonList("*"));
                 cfg.setAllowCredentials(true);
+                cfg.setAllowedOriginPatterns(Collections.singletonList("*"));
                 cfg.setAllowedHeaders(Collections.singletonList("*"));
                 cfg.setExposedHeaders(List.of("Authorization"));
                 cfg.setMaxAge(3600L);
@@ -60,8 +59,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return  new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }

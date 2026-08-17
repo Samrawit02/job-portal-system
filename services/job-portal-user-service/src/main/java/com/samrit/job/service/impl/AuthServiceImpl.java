@@ -17,12 +17,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -55,8 +58,9 @@ public class  AuthServiceImpl implements AuthService {
 
         User savedUser = userRepository.save(user);
 
-        Authentication authentication = new  UsernamePasswordAuthenticationToken(
-                user.getEmail(), user.getPassword());
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(savedUser.getRole().name()));
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                savedUser.getEmail(), null, authorities);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication, savedUser.getId());

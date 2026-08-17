@@ -67,10 +67,10 @@ spring:
               predicates:
                 - Path=/api/jobs/**, /api/job-categories, /api/job-skills , /api/job-tags
 
-            - id: ob-portal-resume-service
-              uri: lb://JOB-PORTAL-JOB-SERVICE
+            - id: job-portal-resume-service
+              uri: lb://JOB-PORTAL-RESUME-SERVICE
               predicates:
-                - Path=/api/jobs/**, /api/job-categories, /api/job-skills , /api/job-tags
+                - Path=/api/resumes/**
 
           default-filters:
             - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
