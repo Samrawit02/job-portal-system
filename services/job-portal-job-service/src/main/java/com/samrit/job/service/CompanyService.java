@@ -5,9 +5,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "COMPANY-SERVICE")
+@FeignClient(name = "COMPANY-SERVICE", url = "localhost:5002")
 public interface CompanyService {
     @GetMapping("/api/companies/my")
-    CompanyResponse getCompanyProfile(@RequestHeader ("X-User-Id") Long ownerId);
+     CompanyResponse getCompanyProfile(@RequestHeader ("X-User-Id") Long ownerId);
 
 }

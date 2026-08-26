@@ -65,21 +65,12 @@ spring:
             - id: job-portal-job-service
               uri: lb://JOB-PORTAL-JOB-SERVICE
               predicates:
-                - Path=/api/jobs/**, /api/job-categories, /api/job-skills , /api/job-tags
+                - Path=/api/jobs/**, /api/job-categories/**, /api/job-skills/**, /api/job-tags/**
 
             - id: job-portal-resume-service
               uri: lb://JOB-PORTAL-RESUME-SERVICE
               predicates:
-                - Path=/api/resumes/**
-
-          default-filters:
-            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
-          globalcors:
-            cors-configurations:
-            '[/**]':
-            allowedOrigins: "*"
-            allowedMethods: "*"
-            allowedHeaders: "*"
+                - Path=/api/resumes/**, /api/resume/**
 
 eureka:
   instance:
@@ -92,5 +83,6 @@ eureka:
 
 logging:
   level:
-    org.springframework.cloud.gateway: TRACE
-    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.cloud.gateway: INFO
+    org.springframework.web: INFO

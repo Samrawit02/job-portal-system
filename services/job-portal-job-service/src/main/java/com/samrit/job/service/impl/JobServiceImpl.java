@@ -43,8 +43,17 @@ public class JobServiceImpl implements JobService {
         Set<JobTag> tags = jobRequest.getTagIds() != null ?
                 tagService.getTagsByIds(jobRequest.getTagIds())
                 : Collections.emptySet();
-        CompanyResponse companyResponse = fetchCompanyProfileSafely(employerId);
-        Long companyId = companyResponse != null ? companyResponse.getId() : null;
+
+        Long companyId = jobRequest.getCompanyId();
+        if (companyId == null) {
+            CompanyResponse companyResponse = fetchCompanyProfileSafely(employerId);
+            if (companyResponse != null) {
+                companyId = companyResponse.getId();
+            }
+        }
+        if (companyId == null) {
+            throw new Exception("Company profile not found for employer. Please create a company profile or specify 'companyId' in the request before posting a job.");
+        }
 
         Job job = Job.builder()
                 .title(jobRequest.getTitle())
@@ -69,7 +78,6 @@ public class JobServiceImpl implements JobService {
                 .status(JobStatus.DRAFT)
                 .build();
         return convertToJobResponse(jobRepo.save(job));
-
     }
 
     private SalaryRange buildSalaryRange(JobRequest jobRequest) {
@@ -232,11 +240,10 @@ public class JobServiceImpl implements JobService {
             return null;
         }
         try {
-            return companyService.getCompanyProfile(employerId);
+            CompanyResponse response = companyService.getCompanyProfile(employerId);
+            return (response != null && response.getId() != null) ? response : null;
         } catch (Exception e) {
-            return CompanyResponse.builder()
-                    .id(null)
-                    .build();
+            return null;
         }
     }
 

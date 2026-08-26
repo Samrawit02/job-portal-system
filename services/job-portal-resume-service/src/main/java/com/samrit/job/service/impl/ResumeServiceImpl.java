@@ -1,6 +1,8 @@
 package com.samrit.job.service.impl;
 
 import com.samrit.job.Mapper.ResumeMapper;
+import com.samrit.job.domain.ResumeTemplate;
+import com.samrit.job.domain.ResumeVisibility;
 import com.samrit.job.dto.PersonalInfoResponse;
 import com.samrit.job.dto.ResumeResponse;
 import com.samrit.job.model.PersonalInfo;
@@ -33,8 +35,8 @@ public class ResumeServiceImpl implements ResumeService {
         Resume resume = Resume.builder()
                 .candidateId(candidateId)
                 .title(request.getTitle())
-                .template(request.getTemplate())
-                .visibility(request.getVisibility())
+                .template(ResumeTemplate.PROFESSIONAL)
+                .visibility(ResumeVisibility.PUBLIC)
                 .isDefault(Boolean.TRUE.equals(request.getIsDefault()))
                 .isActive(true)
                 .build();

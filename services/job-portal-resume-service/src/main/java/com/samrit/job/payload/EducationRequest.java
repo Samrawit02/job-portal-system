@@ -1,6 +1,7 @@
 package com.samrit.job.payload;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ public class EducationRequest {
     private String degree;
     private String fieldOfStudy;
     private String grade;
-    @NotBlank(message = "Start Date  is required")
+    @NotNull(message = "Start Date  is required")
     private LocalDate startDate;
     private LocalDate endDate;
     @Builder.Default

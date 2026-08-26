@@ -31,6 +31,7 @@ public class JobRequest {
     private String benefits;
     @NotNull(message = " Job category is required")
     private Long categoryId;
+    private Long companyId;
     private Set<Long> skillIds;
     private Set<Long> tagIds;
     private String address;

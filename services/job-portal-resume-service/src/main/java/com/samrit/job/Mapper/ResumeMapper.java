@@ -67,6 +67,7 @@ public class ResumeMapper {
                 .id(education.getId())
                 .institutionName(education.getInstitutionName())
                 .degree(education.getDegree())
+                .grade(education.getGrade())
                 .fieldOfStudy(education.getFieldOfStudy())
                 .startDate(education.getStartDate())
                 .endDate(education.getEndDate())
