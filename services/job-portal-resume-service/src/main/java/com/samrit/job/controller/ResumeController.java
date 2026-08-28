@@ -7,7 +7,7 @@ import com.samrit.job.dto.ResumeResponse;
 import com.samrit.job.payload.ResumeRequest;
 import com.samrit.job.service.ResumeService;
 import jakarta.validation.Valid;
-import lombok.Getter;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

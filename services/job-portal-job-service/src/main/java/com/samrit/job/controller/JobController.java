@@ -74,7 +74,6 @@ public class JobController {
     ) throws Exception {
         return  ResponseEntity.ok(jobService.closeJob(id, employerId));
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiMessage>DeleteJob(
             @PathVariable Long id,
@@ -83,6 +82,5 @@ public class JobController {
         jobService.deleteJob(id, employerId);
         return  ResponseEntity.ok(new ApiMessage("Job Deleted Successfully",true));
     }
-
 
 }

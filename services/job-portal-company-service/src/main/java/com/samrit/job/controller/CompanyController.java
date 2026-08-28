@@ -67,8 +67,9 @@ public class CompanyController {
     @PatchMapping("/{id}/verify")
     public ResponseEntity<CompanyResponse> verifyCompany(
             @PathVariable Long id
+            ,@RequestHeader("X-User-Id") Long userId
     ) throws Exception {
-        return  ResponseEntity.ok(companyService.verifyCompany(id));
+        return  ResponseEntity.ok(companyService.verifyCompany(id, userId));
     }
 
     @PatchMapping("/{id}/deactivate")

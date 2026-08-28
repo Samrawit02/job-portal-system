@@ -10,8 +10,9 @@ import com.samrit.job.dto.SocialLinkResponse;
 import com.samrit.job.mapper.CompanyMapper;
 import com.samrit.job.model.Company;
 import com.samrit.job.model.SocialLink;
+import com.samrit.job.response.UserResponse;
 import com.samrit.job.service.CompanyService;
-import jakarta.transaction.Transactional;
+import com.samrit.job.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,43 +27,49 @@ import static java.util.stream.Collectors.toList;
 public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepo companyRepo;
+    private final UserService userService;
 
     @Override
     public CompanyResponse createCompany(Long ownerId, CompanyRequest request) throws Exception {
+        UserResponse userResponse = userService.getUserById(ownerId);
+        if("ROLE_EMPLOYER".equalsIgnoreCase(userResponse.getRole().name())){
+            if (companyRepo.existsByOwnerId(ownerId)) {
+                throw new Exception("You already have a company registered. " +
+                        "Only one company per account is allowed.");
+            }
+            if (companyRepo.existsByName(request.getName())) {
+                throw new Exception("Company already exists. Please choose a different name.");
+            }
+            if (request.getRegistrationNumber() != null &&
+                    companyRepo.existsByRegistrationNumber(request.getRegistrationNumber())) {
+                throw new Exception("Company already exists. Please choose a different " +
+                        "registration number");
+            }
+            String slug = generateUniqueSlug(request.getName());
+            Company company = Company.builder()
+                    .name(request.getName())
+                    .slug(slug)
+                    .tagline(request.getTagline())
+                    .description(request.getDescription())
+                    .logoUrl(request.getLogoUrl())
+                    .coverImageUrl(request.getCoverImageUrl())
+                    .website(request.getWebsite())
+                    .email(request.getEmail())
+                    .phone(request.getPhone())
+                    .foundedYear(request.getFoundedYear())
+                    .companySize(request.getCompanySize())
+                    .companyType(request.getCompanyType())
+                    .status(CompanyStatus.PENDING_VERIFICATION)
+                    .industryType(request.getIndustryType())
+                    .registrationNumber(request.getRegistrationNumber())
+                    .ownerId(ownerId)
+                    .socialLinkList(mapSocialLinks(request.getSocialLinkList()))
 
-        if (companyRepo.existsByOwnerId(ownerId)) {
-            throw new Exception("You already have a company registered. " +
-                    "Only one company per account is allowed.");
+                    .build();
+            return CompanyMapper.toCompanyResponse(companyRepo.save(company));
         }
-        if (companyRepo.existsByName(request.getName())) {
-            throw new Exception("Company already exists. Please choose a different name.");
-        }
-        if (request.getRegistrationNumber() != null &&
-                companyRepo.existsByRegistrationNumber(request.getRegistrationNumber())) {
-            throw new Exception("Company already exists. Please choose a different " +
-                    "registration number");
-        }
-        String slug = generateUniqueSlug(request.getName());
-        Company company = Company.builder()
-                .name(request.getName())
-                .slug(slug)
-                .tagline(request.getTagline())
-                .description(request.getDescription())
-                .logoUrl(request.getLogoUrl())
-                .coverImageUrl(request.getCoverImageUrl())
-                .website(request.getWebsite())
-                .email(request.getEmail())
-                .phone(request.getPhone())
-                .foundedYear(request.getFoundedYear())
-                .companySize(request.getCompanySize())
-                .companyType(request.getCompanyType())
-                .industryType(request.getIndustryType())
-                .registrationNumber(request.getRegistrationNumber())
-                .ownerId(ownerId)
-                .socialLinkList(mapSocialLinks(request.getSocialLinkList()))
+        throw new Exception("Don't Have permission to create a company");
 
-                .build();
-        return CompanyMapper.toCompanyResponse(companyRepo.save(company));
     }
 
     private List<SocialLink> mapSocialLinks(List<SocialLinkResponse> socialLinkList) {
@@ -143,14 +150,19 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyResponse verifyCompany(Long companyId) throws Exception {
-        Company company = getCompanyEntityById(companyId);
-        company.setStatus(CompanyStatus.ACTIVE);
-        company.setVerified(true);
+    public CompanyResponse verifyCompany(Long companyId, Long userId) throws Exception {
+        //todo check if the user is admin
+        UserResponse userResponse = userService.getUserById(userId);
+        if("ROLE_ADMIN".equalsIgnoreCase(userResponse.getRole().name())){
+            Company company = getCompanyEntityById(companyId);
+            company.setStatus(CompanyStatus.ACTIVE);
+            company.setVerified(true);
 
-        return CompanyMapper.toCompanyResponse(companyRepo.save(company));
+            return CompanyMapper.toCompanyResponse(companyRepo.save(company));
+        }
+        else
+            throw new Exception("You don't have a permission to verify");
     }
-
     @Override
     public void deleteCompany(Long companyId, Long ownerId) throws Exception {
         Company company = getCompanyEntityById(companyId);
@@ -166,7 +178,6 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepo.findById(id).orElseThrow(
                 () -> new Exception("Company not found with id"));
     }
-
     @Override
     public CompanyResponse deactivateCompany(Long companyId) throws Exception {
         Company company = getCompanyEntityById(companyId);

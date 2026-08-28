@@ -18,7 +18,7 @@ public interface CompanyService {
                                           IndustryType industryType,
                                           CompanyStatus companyStatus);
     CompanyResponse updateCompany(Long companyId, Long ownerId, CompanyRequest req) throws Exception;
-    CompanyResponse verifyCompany(Long companyId) throws Exception;
+    CompanyResponse verifyCompany(Long companyId, Long userId) throws Exception;
     void deleteCompany(Long companyId , Long ownerId) throws Exception;
     Company getCompanyEntityById(Long id) throws Exception;
 

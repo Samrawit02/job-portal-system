@@ -1,7 +1,7 @@
 package com.samrit.job.service.impl;
 
 import com.samrit.job.Repo.JobCategoryRepository;
-import com.samrit.job.dto.JobResponse;
+import com.samrit.job.dto.JobCategoryResponse;
 import com.samrit.job.mapper.JobCategoryMapper;
 import com.samrit.job.model.JobCategory;
 import com.samrit.job.payload.JobCategoryRequest;
@@ -20,7 +20,7 @@ public class JobCategoryServiceImpl implements JobCategoryService {
     private final JobCategoryRepository jobCategoryRepository;
 
     @Override
-    public JobResponse.JobCategoryResponse createJobCategory(JobCategoryRequest request) throws Exception {
+    public JobCategoryResponse createJobCategory(JobCategoryRequest request) throws Exception {
 
         if(jobCategoryRepository.existsByName(request.getName())){
             throw  new Exception("Category name already exist, use different name");
@@ -42,9 +42,8 @@ public class JobCategoryServiceImpl implements JobCategoryService {
 
         return JobCategoryMapper.toJobCategoryResponse(jobCategoryRepository.save(category), true);
     }
-
     @Override
-    public List<JobResponse.JobCategoryResponse> getAllCategories() {
+    public List<JobCategoryResponse> getAllCategories() {
         return jobCategoryRepository.findByActiveTrue()
                 .stream()
                 .map(c-> JobCategoryMapper.toJobCategoryResponse(c,false))
@@ -52,13 +51,13 @@ public class JobCategoryServiceImpl implements JobCategoryService {
     }
 
     @Override
-    public JobResponse.JobCategoryResponse getCategoryById(Long id) throws Exception {
+    public JobCategoryResponse getCategoryById(Long id) throws Exception {
         JobCategory jobCategory = getCategoryEntityById(id);
         return JobCategoryMapper.toJobCategoryResponse(jobCategory, true);
     }
 
     @Override
-    public JobResponse.JobCategoryResponse updateCategory(Long id, JobCategoryRequest req) throws Exception {
+    public JobCategoryResponse updateCategory(Long id, JobCategoryRequest req) throws Exception {
        JobCategory category = getCategoryEntityById(id);
 
        if(category.getName().equals(req.getName()) &&
@@ -85,8 +84,6 @@ public class JobCategoryServiceImpl implements JobCategoryService {
         JobCategory category = getCategoryEntityById(id);
         category.setActive(false);
         jobCategoryRepository.save(category);
-
-
     }
 
     @Override
@@ -108,5 +105,4 @@ public class JobCategoryServiceImpl implements JobCategoryService {
         }
         return base +"-"+counter;
     }
-
 }

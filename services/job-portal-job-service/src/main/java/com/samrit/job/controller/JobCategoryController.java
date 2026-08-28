@@ -2,6 +2,7 @@ package com.samrit.job.controller;
 
 
 import com.samrit.job.dto.ApiMessage;
+import com.samrit.job.dto.JobCategoryResponse;
 import com.samrit.job.dto.JobResponse;
 import com.samrit.job.payload.JobCategoryRequest;
 import com.samrit.job.service.JobCategoryService;
@@ -21,7 +22,7 @@ public class JobCategoryController {
     private final JobCategoryService jobCategoryService;
 
     @PostMapping
-    public ResponseEntity<JobResponse.JobCategoryResponse> createCategory(
+    public ResponseEntity<JobCategoryResponse> createCategory(
             @RequestBody @Valid JobCategoryRequest request
             ) throws Exception {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -30,19 +31,19 @@ public class JobCategoryController {
     }
 
     @GetMapping
-    public  ResponseEntity<List<JobResponse.JobCategoryResponse>> getAllCategories(){
+    public  ResponseEntity<List<JobCategoryResponse>> getAllCategories(){
         return ResponseEntity.ok(jobCategoryService.getAllCategories());
 
     }
     @GetMapping("/{id}")
-    public ResponseEntity<JobResponse.JobCategoryResponse>getCategoryById(
+    public ResponseEntity<JobCategoryResponse>getCategoryById(
             @PathVariable Long id
     ) throws Exception {
         return  ResponseEntity.ok(jobCategoryService.getCategoryById(id));
 
     }
     @PutMapping("/{id}")
-    public ResponseEntity<JobResponse.JobCategoryResponse> updateCategory(
+    public ResponseEntity<JobCategoryResponse> updateCategory(
             @PathVariable Long id,
             @RequestBody @Valid JobCategoryRequest request
 

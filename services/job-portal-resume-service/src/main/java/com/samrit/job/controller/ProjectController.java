@@ -4,12 +4,10 @@ import com.samrit.job.dto.ApiMessage;
 import com.samrit.job.dto.ProjectResponse;
 import com.samrit.job.payload.ProjectRequest;
 import com.samrit.job.service.ProjectService;
-import com.samrit.job.service.ResumeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

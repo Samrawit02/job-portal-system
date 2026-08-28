@@ -41,8 +41,10 @@ public class Company {
     private CompanySize companySize;
     @Enumerated(EnumType.STRING)
     private CompanyType companyType;
+
     @Enumerated(EnumType.STRING)
     private IndustryType industryType;
+    @Enumerated(EnumType.STRING)
     private CompanyStatus status;
 
     private  boolean isVerified=false;

@@ -1,5 +1,6 @@
 package com.samrit.job.mapper;
 
+import com.samrit.job.dto.JobCategoryResponse;
 import com.samrit.job.dto.JobResponse;
 import com.samrit.job.model.JobCategory;
 
@@ -10,9 +11,9 @@ import java.util.stream.Collectors;
 public class JobCategoryMapper {
 
 
-    public static JobResponse.JobCategoryResponse toJobCategoryResponse(JobCategory category ,
-                                                                        boolean includeChildren) {
-        List<JobResponse.JobCategoryResponse> subCategories = null;
+    public static JobCategoryResponse toJobCategoryResponse(JobCategory category ,
+                                                            boolean includeChildren) {
+        List<JobCategoryResponse> subCategories = null;
         if(includeChildren && category.getSubCategories() !=null ){
             subCategories = category.getSubCategories()
                     .stream()
@@ -20,7 +21,7 @@ public class JobCategoryMapper {
                     .collect(Collectors.toList());
         }
 
-        return JobResponse.JobCategoryResponse.builder()
+        return JobCategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
                 .slug(category.getSlug())

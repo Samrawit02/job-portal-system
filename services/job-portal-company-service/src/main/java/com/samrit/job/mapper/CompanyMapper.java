@@ -29,6 +29,7 @@ public class CompanyMapper {
                 .companySize(company.getCompanySize())
                 .companyType(company.getCompanyType())
                 .companyStatus(company.getStatus())
+                .registrationNumber(company.getRegistrationNumber())
                 .industryType(company.getIndustryType())
                 .active(company.getActive())
                 .ownerId(company.getOwnerId())

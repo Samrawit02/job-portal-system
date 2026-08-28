@@ -20,7 +20,9 @@ import java.util.List;
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfig {
+public class
+
+SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
