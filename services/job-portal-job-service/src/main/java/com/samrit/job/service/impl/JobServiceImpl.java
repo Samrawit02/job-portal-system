@@ -18,10 +18,10 @@ import com.samrit.job.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-
 
 @Service
 @RequiredArgsConstructor
@@ -37,11 +37,9 @@ public class JobServiceImpl implements JobService {
     public JobResponse createJob(Long employerId, JobRequest jobRequest) throws Exception {
 
         JobCategory category = categoryService.getCategoryEntityById(jobRequest.getCategoryId());
-        Set<JobSkill> skills = jobRequest.getSkillIds() != null ?
-                skillService.getSkillsByIds(jobRequest.getSkillIds())
+        Set<JobSkill> skills = jobRequest.getSkillIds() != null ? skillService.getSkillsByIds(jobRequest.getSkillIds())
                 : Collections.emptySet();
-        Set<JobTag> tags = jobRequest.getTagIds() != null ?
-                tagService.getTagsByIds(jobRequest.getTagIds())
+        Set<JobTag> tags = jobRequest.getTagIds() != null ? tagService.getTagsByIds(jobRequest.getTagIds())
                 : Collections.emptySet();
 
         Long companyId = jobRequest.getCompanyId();
@@ -50,9 +48,15 @@ public class JobServiceImpl implements JobService {
             if (companyResponse != null) {
                 companyId = companyResponse.getId();
             }
+        } else {
+            CompanyResponse companyResponse = companyService.getCompanyById(companyId);
+            if (companyResponse == null || !Objects.equals(companyResponse.getOwnerId(), employerId)) {
+                throw new Exception("You are not authorized to use this company");
+            }
         }
         if (companyId == null) {
-            throw new Exception("Company profile not found for employer. Please create a company profile or specify 'companyId' in the request before posting a job.");
+            throw new Exception(
+                    "Company profile not found for employer. Please create a company profile or specify 'companyId' in the request before posting a job.");
         }
 
         Job job = Job.builder()
@@ -100,9 +104,8 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public JobResponse getJobById(Long id) throws Exception {
-        Job job = jobRepo.findById(id).orElseThrow(
-                () -> new Exception("Job not found")
-        );
+        Job job = jobRepo.findByIdAndActiveTrueAndStatus(id, JobStatus.OPEN).orElseThrow(
+                () -> new Exception("Job not found"));
         return convertToJobResponse(job);
     }
 
@@ -110,16 +113,13 @@ public class JobServiceImpl implements JobService {
     public JobResponse updateJob(Long jobId, Long employerId, JobRequest req) throws Exception {
 
         JobCategory category = categoryService.getCategoryEntityById(req.getCategoryId());
-        Set<JobSkill> skills = req.getSkillIds() != null ?
-                skillService.getSkillsByIds(req.getSkillIds())
+        Set<JobSkill> skills = req.getSkillIds() != null ? skillService.getSkillsByIds(req.getSkillIds())
                 : Collections.emptySet();
-        Set<JobTag> tags = req.getTagIds() != null ?
-                tagService.getTagsByIds(req.getTagIds())
+        Set<JobTag> tags = req.getTagIds() != null ? tagService.getTagsByIds(req.getTagIds())
                 : Collections.emptySet();
 
         Job job = jobRepo.findById(jobId).orElseThrow(
-                () -> new Exception("Job not found")
-        );
+                () -> new Exception("Job not found"));
         assertEmployer(job, employerId);
         job.setTitle(req.getTitle());
         job.setDescription(req.getDescription());
@@ -149,15 +149,14 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<JobResponse> getJobsByCompany(Long companyId) {
-        List<Job> jobs = jobRepo.findByCompanyId(companyId);
+        List<Job> jobs = jobRepo.findByCompanyIdAndActiveTrueAndStatus(companyId, JobStatus.OPEN);
         return convertToJobResponses(jobs);
     }
 
     @Override
     public JobResponse publishJob(Long jobId, Long employerId) throws Exception {
         Job job = jobRepo.findById(jobId).orElseThrow(
-                () -> new Exception("Job not found")
-        );
+                () -> new Exception("Job not found"));
         assertEmployer(job, employerId);
         if (job.getStatus() == JobStatus.CLOSED || job.getStatus() == JobStatus.EXPIRED)
             throw new Exception("Job is expired");
@@ -171,8 +170,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public JobResponse closeJob(Long jobId, Long employerId) throws Exception {
         Job job = jobRepo.findById(jobId).orElseThrow(
-                () -> new Exception("Job not found")
-        );
+                () -> new Exception("Job not found"));
         assertEmployer(job, employerId);
         job.setActive(false);
         job.setStatus(JobStatus.CLOSED);
@@ -184,8 +182,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public void deleteJob(Long jobId, Long employerId) throws Exception {
         Job job = jobRepo.findById(jobId).orElseThrow(
-                () -> new Exception("Job not found")
-        );
+                () -> new Exception("Job not found"));
         assertEmployer(job, employerId);
         jobRepo.delete(job);
     }
@@ -211,7 +208,7 @@ public class JobServiceImpl implements JobService {
             return Collections.emptyList();
         }
         Set<Long> employerIds = jobs.stream()
-                .map(Job::getEmployerId)
+            .map(job -> job.getEmployerId())
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
 
@@ -219,8 +216,7 @@ public class JobServiceImpl implements JobService {
                 .collect(Collectors.toMap(
                         id -> id,
                         this::fetchCompanyProfileSafely,
-                        (existing, replacement) -> existing
-                ));
+                        (existing, replacement) -> existing));
 
         return jobs.stream()
                 .map(job -> {

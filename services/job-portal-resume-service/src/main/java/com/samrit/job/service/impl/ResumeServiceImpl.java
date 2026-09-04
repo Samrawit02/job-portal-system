@@ -23,7 +23,12 @@ public class ResumeServiceImpl implements ResumeService {
     private final ResumeRepo resumeRepo;
 
     @Override
-    public ResumeResponse createResume(Long candidateId, ResumeRequest request) {
+    public ResumeResponse createResume(Long candidateId, ResumeRequest request) throws Exception {
+//
+//        Resume resumeByCandidateId = resumeRepo.findByCandidateId(candidateId);
+//        if(resumeByCandidateId!=null){
+//            throw  new Exception("you already have a resume");
+//        }
 
         if (Boolean.TRUE.equals(request.getIsDefault())) {
             resumeRepo.findByCandidateIdAndIsDefaultTrueAndIsActiveTrue(candidateId)

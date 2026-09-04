@@ -26,7 +26,7 @@ public class ResumeController {
     public ResponseEntity<ResumeResponse>createResume(
             @RequestHeader ("X-User-Id") Long candidateId,
             @RequestBody @Valid ResumeRequest request
-            ){
+            ) throws Exception {
         return  ResponseEntity.status(HttpStatus.CREATED)
                 .body(resumeService.createResume(candidateId,request));
     }

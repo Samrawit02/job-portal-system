@@ -42,7 +42,7 @@ public class WorkExperienceController {
     @PutMapping("/{experienceId}")
     public ResponseEntity<WorkExperienceResponse> updateWorkExperience(
             @PathVariable Long resumeId,
-            @PathVariable Long workExperienceId,
+            @PathVariable("experienceId") Long workExperienceId,
             @RequestHeader("X-User-Id") Long candidateId,
             @RequestBody @Valid WorkExperienceRequest request
     ) throws Exception {

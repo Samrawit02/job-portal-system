@@ -22,7 +22,7 @@ public interface CompanyService {
     void deleteCompany(Long companyId , Long ownerId) throws Exception;
     Company getCompanyEntityById(Long id) throws Exception;
 
-    CompanyResponse deactivateCompany(Long companyId) throws Exception;
+    CompanyResponse deactivateCompany(Long companyId, Long userId) throws Exception;
 
 
 }

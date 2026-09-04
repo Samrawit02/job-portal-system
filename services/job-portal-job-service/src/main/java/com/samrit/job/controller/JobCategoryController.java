@@ -1,9 +1,7 @@
 package com.samrit.job.controller;
 
-
 import com.samrit.job.dto.ApiMessage;
 import com.samrit.job.dto.JobCategoryResponse;
-import com.samrit.job.dto.JobResponse;
 import com.samrit.job.payload.JobCategoryRequest;
 import com.samrit.job.service.JobCategoryService;
 import jakarta.validation.Valid;
@@ -24,32 +22,31 @@ public class JobCategoryController {
     @PostMapping
     public ResponseEntity<JobCategoryResponse> createCategory(
             @RequestBody @Valid JobCategoryRequest request
-            ) throws Exception {
+    ) throws Exception {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(jobCategoryService.createJobCategory(request));
-
     }
 
     @GetMapping
-    public  ResponseEntity<List<JobCategoryResponse>> getAllCategories(){
+    public ResponseEntity<List<JobCategoryResponse>> getAllCategories() {
         return ResponseEntity.ok(jobCategoryService.getAllCategories());
-
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<JobCategoryResponse>getCategoryById(
+    public ResponseEntity<JobCategoryResponse> getCategoryById(
             @PathVariable Long id
     ) throws Exception {
-        return  ResponseEntity.ok(jobCategoryService.getCategoryById(id));
-
+        return ResponseEntity.ok(jobCategoryService.getCategoryById(id));
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<JobCategoryResponse> updateCategory(
             @PathVariable Long id,
             @RequestBody @Valid JobCategoryRequest request
-
-            ) throws Exception {
-        return  ResponseEntity.ok(jobCategoryService.updateCategory(id,request));
+    ) throws Exception {
+        return ResponseEntity.ok(jobCategoryService.updateCategory(id, request));
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiMessage> deleteCategory(
             @PathVariable Long id
@@ -58,3 +55,4 @@ public class JobCategoryController {
         return ResponseEntity.ok(new ApiMessage("Category Deleted Successfully", true));
     }
 }
+

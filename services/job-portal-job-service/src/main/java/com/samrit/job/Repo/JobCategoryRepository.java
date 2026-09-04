@@ -1,11 +1,12 @@
 package com.samrit.job.Repo;
 
 import com.samrit.job.model.JobCategory;
-import org.apache.catalina.LifecycleState;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface JobCategoryRepository extends JpaRepository<JobCategory, Long> {
     boolean existsByName(String name);
     boolean existsBySlug(String slug);

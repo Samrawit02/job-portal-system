@@ -3,11 +3,15 @@ package com.samrit.job.service;
 import com.samrit.job.dto.CompanyResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(name = "COMPANY-SERVICE", url = "localhost:5002")
 public interface CompanyService {
     @GetMapping("/api/companies/my")
      CompanyResponse getCompanyProfile(@RequestHeader ("X-User-Id") Long ownerId);
+
+    @GetMapping("/api/companies/{companyId}")
+    CompanyResponse getCompanyById(@PathVariable("companyId") Long companyId);
 
 }

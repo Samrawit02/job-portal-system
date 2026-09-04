@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ResumeService {
 
-    ResumeResponse createResume (Long candidateId , ResumeRequest request);
+    ResumeResponse createResume (Long candidateId , ResumeRequest request) throws Exception;
     ResumeResponse getResumesById(Long resumeId, Long candidateId) throws Exception;
     List<ResumeResponse> getMyResumes(Long candidateId);
     ResumeResponse updatePersonalInformation (Long resumeId, Long candidateId, PersonalInfoResponse personalInfo) throws Exception;

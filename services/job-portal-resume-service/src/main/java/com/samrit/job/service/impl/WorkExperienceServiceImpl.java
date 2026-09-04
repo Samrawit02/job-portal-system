@@ -55,8 +55,11 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
     }
     @Override
     public WorkExperienceResponse updateWorkExperience(Long resumeId, Long candidateId, Long workExperienceId, WorkExperienceRequest request) throws Exception {
-       WorkExperience  workExperience = getWorkExperienceEntityById(resumeId);
+       WorkExperience workExperience = getWorkExperienceEntityById(workExperienceId);
        assertOwner(workExperience.getResume(), candidateId);
+       if (!workExperience.getResume().getId().equals(resumeId)) {
+           throw new Exception("Work experience does not belong to this resume");
+       }
 
        workExperience.setCompanyName(request.getCompanyName());
        workExperience.setCompanyLogoUrl(request.getCompanyLogoUrl());
@@ -68,7 +71,7 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
        workExperience.setIsCurrentJob(Boolean.TRUE.equals(request.getIsCurrentJob()));
        workExperience.setDescription(request.getDescription());
        if(request.getTechnologies()!=null) workExperience.setTechnologies(request.getTechnologies());
-       if(request.getDescription() !=null) workExperience.setDisplayOrder(request.getDisplayOrder());
+    if(request.getDisplayOrder() != null) workExperience.setDisplayOrder(request.getDisplayOrder());
 
        return WorkExperienceMapper.toWorkExperienceResponse(workExperienceRepo.save(workExperience));
 
@@ -76,8 +79,11 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
 
     @Override
     public void deleteWorkExperience(Long resumeId, Long workExperienceId, Long candidateId) throws Exception {
-        WorkExperience  workExperience = getWorkExperienceEntityById(resumeId);
+        WorkExperience workExperience = getWorkExperienceEntityById(workExperienceId);
         assertOwner(workExperience.getResume(), candidateId);
+        if (!workExperience.getResume().getId().equals(resumeId)) {
+            throw new Exception("Work experience does not belong to this resume");
+        }
         workExperienceRepo.delete(workExperience);
     }
 

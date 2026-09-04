@@ -179,8 +179,13 @@ public class CompanyServiceImpl implements CompanyService {
                 () -> new Exception("Company not found with id"));
     }
     @Override
-    public CompanyResponse deactivateCompany(Long companyId) throws Exception {
+    public CompanyResponse deactivateCompany(Long companyId, Long userId) throws Exception {
         Company company = getCompanyEntityById(companyId);
+        UserResponse userResponse = userService.getUserById(userId);
+        boolean isAdmin = userResponse != null && "ROLE_ADMIN".equalsIgnoreCase(userResponse.getRole().name());
+        if (!isAdmin && !Objects.equals(company.getOwnerId(), userId)) {
+            throw new Exception("You don't have permission to deactivate this company");
+        }
         company.setStatus((CompanyStatus.SUSPENDED));
         company.setVerified(false);
         return CompanyMapper.toCompanyResponse(companyRepo.save(company));

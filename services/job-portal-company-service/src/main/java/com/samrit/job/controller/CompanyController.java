@@ -74,9 +74,10 @@ public class CompanyController {
 
     @PatchMapping("/{id}/deactivate")
     public ResponseEntity<CompanyResponse> deactivateCompany(
-            @PathVariable Long id
+            @PathVariable Long id,
+            @RequestHeader("X-User-Id") Long userId
     ) throws Exception {
-        return  ResponseEntity.ok(companyService.deactivateCompany(id));
+        return ResponseEntity.ok(companyService.deactivateCompany(id, userId));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiMessage> deleteCompany(
