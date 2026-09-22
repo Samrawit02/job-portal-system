@@ -212,11 +212,13 @@ public class JobServiceImpl implements JobService {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
 
-        Map<Long, CompanyResponse> companyMap = employerIds.stream()
-                .collect(Collectors.toMap(
-                        id -> id,
-                        this::fetchCompanyProfileSafely,
-                        (existing, replacement) -> existing));
+        Map<Long, CompanyResponse> companyMap = new HashMap<>();
+        for (Long empId : employerIds) {
+            CompanyResponse comp = fetchCompanyProfileSafely(empId);
+            if (comp != null) {
+                companyMap.put(empId, comp);
+            }
+        }
 
         return jobs.stream()
                 .map(job -> {

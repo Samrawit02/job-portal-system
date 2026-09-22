@@ -5,15 +5,11 @@ import com.samrit.job.dto.SocialLinkResponse;
 import com.samrit.job.model.Company;
 import com.samrit.job.model.SocialLink;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class CompanyMapper {
 
-
-
-    public static CompanyResponse toCompanyResponse(Company company){
+    public static CompanyResponse toCompanyResponse(Company company) {
         return CompanyResponse.builder()
                 .id(company.getId())
                 .name(company.getName())
@@ -43,9 +39,10 @@ public class CompanyMapper {
 
     public static SocialLinkResponse toSocialLinkResponse(SocialLink socialLink) {
 
-        if(socialLink ==null) return  null;
+        if (socialLink == null)
+            return null;
 
-        return  SocialLinkResponse.builder()
+        return SocialLinkResponse.builder()
                 .platform(socialLink.getPlatform())
                 .url(socialLink.getUrl())
                 .build();

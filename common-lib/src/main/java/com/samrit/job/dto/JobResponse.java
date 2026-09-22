@@ -9,7 +9,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+
 import java.util.Set;
 
 @Getter
@@ -31,8 +31,7 @@ public class JobResponse {
     private Set<JobSkillResponse> skills;
     private Set<JobTagResponse> tags;
 
-
-//    private JobLocation location;
+    // private JobLocation location;
     // location
     private String address;
     private String city;
@@ -40,12 +39,12 @@ public class JobResponse {
     private String state;
     private String zipCode;
 
-//    private SalaryRange salaryRange;
+    // private SalaryRange salaryRange;
     // Salary
     private BigDecimal minSalary;
     private BigDecimal maxSalary;
 
-    //Classification
+    // Classification
     private JobType jobType;
     private WorkMode workMode;
     private ExperienceLevel experienceLevel;
@@ -55,13 +54,12 @@ public class JobResponse {
     private Integer openings;
     private LocalDate applicationDeadline;
     private LocalDate expiresAt;
-    private  Boolean active;
+    private Boolean active;
 
     // Timestamps
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime publishedAt;
     private LocalDateTime closedAt;
-
 
 }

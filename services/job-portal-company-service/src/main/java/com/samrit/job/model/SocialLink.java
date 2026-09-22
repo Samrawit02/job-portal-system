@@ -2,7 +2,6 @@ package com.samrit.job.model;
 
 import com.samrit.job.domain.SocialPlatform;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Enumerated;
 import lombok.*;
 
 @Embeddable
@@ -13,5 +12,5 @@ import lombok.*;
 @Builder
 public class SocialLink {
     private SocialPlatform platform;
-    private String  url;
+    private String url;
 }
