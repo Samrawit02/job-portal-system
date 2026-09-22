@@ -1,13 +1,11 @@
 package com.samrit.job.dto;
 
 import com.samrit.job.domain.CompanySize;
-import com.samrit.job.domain.CompanyStatus;
 import com.samrit.job.domain.CompanyType;
 import com.samrit.job.domain.IndustryType;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -29,8 +27,8 @@ public class CompanyRequest {
     private String phone;
     @Pattern(regexp = "^(https?://).*", message = "Website must be a valid URL")
     private String website;
-    @Min( value = 1800 , message = "Founder year seems too old")
-    @Max(value = 2100,message = "Founder year is invalid")
+    @Min(value = 1800, message = "Founder year seems too old")
+    @Max(value = 2100, message = "Founder year is invalid")
     private Integer foundedYear;
     @NotNull(message = "Company size is required")
     private CompanySize companySize;

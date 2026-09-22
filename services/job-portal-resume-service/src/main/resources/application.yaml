@@ -15,8 +15,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/job_portal_resume
-    username: postgres
+    url: jdbc:postgresql://localhost:5432/job_portal_resume
+    username: samrit
     password: root
     driver-class-name: org.postgresql.Driver
 
