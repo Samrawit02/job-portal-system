@@ -11,6 +11,8 @@
         <option value="$PROJECT_DIR$/getway/pom.xml" />
         <option value="$PROJECT_DIR$/eureka-server/pom.xml" />
         <option value="$PROJECT_DIR$/gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud/gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/cloud/eureka-server/pom.xml" />
       </list>
     </option>
   </component>

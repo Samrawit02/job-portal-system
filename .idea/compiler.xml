@@ -9,13 +9,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="job-portal-user-service" />
         <module name="job-portal-common" />
+        <module name="job-portal-eureka-server" />
         <module name="job-portal-job-service" />
         <module name="job-portal-resume-service" />
-        <module name="eureka-server" />
         <module name="job-portal-company-service" />
         <module name="gateway" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="eureka-server" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -23,6 +26,7 @@
       <module name="gateway" options="-parameters" />
       <module name="job-portal-common" options="-parameters" />
       <module name="job-portal-company-service" options="-parameters" />
+      <module name="job-portal-eureka-server" options="-parameters" />
       <module name="job-portal-job-service" options="-parameters" />
       <module name="job-portal-resume-service" options="-parameters" />
       <module name="job-portal-user-service" options="-parameters" />

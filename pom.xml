@@ -16,8 +16,8 @@
     <name>job-portal-system</name>
     <description> AI- based Job Portal Microservices System</description>
     <modules>
-        <module>eureka-server</module>
-        <module>gateway</module>
+<!--        <module>eureka-server</module>-->
+<!--        <module>gateway</module>-->
         <module>cloud</module>
         <module>services</module>
         <module>common-lib</module>
