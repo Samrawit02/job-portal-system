@@ -40,7 +40,6 @@ public class EducationServiceImpl implements EducationService {
 
         return ResumeMapper.toEducationResponse(educationRepo.save(education));
     }
-
     @Override
     public List<EducationResponse> getEducations(Long resumeId) {
         return educationRepo.findByResume_IdOrderByDisplayOrderAsc(resumeId)
@@ -48,7 +47,6 @@ public class EducationServiceImpl implements EducationService {
                 .map(ResumeMapper::toEducationResponse)
                 .collect(Collectors.toList());
     }
-
     @Override
     public EducationResponse updateEducationId(Long educationId, Long resumeId, Long candidateId, EducationRequest request) throws Exception {
         Education education = educationRepo.findById(educationId)

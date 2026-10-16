@@ -43,7 +43,6 @@ public class ResumeController {
     ){
         return ResponseEntity.ok(resumeService.getMyResumes(candidateId));
     }
-
     @PutMapping("/{resumeId}/personal-info")
     public ResponseEntity<ResumeResponse> updatePersonalInfo(
             @PathVariable Long resumeId,

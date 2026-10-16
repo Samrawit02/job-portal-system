@@ -14,6 +14,7 @@ public class EducationResponse {
     private Long id;
     private String institutionName;
     private String degree;
+    private ResumeResponse resumeResponse;
     private String fieldOfStudy;
     private String grade;
     private LocalDate startDate;

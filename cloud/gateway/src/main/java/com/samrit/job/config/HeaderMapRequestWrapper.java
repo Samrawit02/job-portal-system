@@ -16,7 +16,6 @@ public class HeaderMapRequestWrapper extends HttpServletRequestWrapper {
     public void addHeader(String name, String value) {
         headerMap.put(name, value);
     }
-
     @Override
     public String getHeader(String name) {
         if (headerMap.containsKey(name)) {
@@ -24,7 +23,6 @@ public class HeaderMapRequestWrapper extends HttpServletRequestWrapper {
         }
         return super.getHeader(name);
     }
-
     @Override
     public Enumeration<String> getHeaderNames() {
         List<String> names = Collections.list(super.getHeaderNames());
@@ -35,7 +33,6 @@ public class HeaderMapRequestWrapper extends HttpServletRequestWrapper {
         }
         return Collections.enumeration(names);
     }
-
     @Override
     public Enumeration<String> getHeaders(String name) {
         if (headerMap.containsKey(name)) {

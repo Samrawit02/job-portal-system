@@ -16,6 +16,7 @@ public class ProjectResponse {
     private Long id;
     private String title;
     private String description;
+    private ResumeResponse resumeResponse;
     private List<String> technologies;
     private String  projectUrl;
     private String sourceCodeUrl;

@@ -38,7 +38,7 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
                         .location(request.getLocation())
                         .startDate(request.getStartDate())
                         .endDate(request.getEndDate())
-                        .isCurrentJob(request.getIsCurrentJob())
+                        .isCurrentJob(false)
                         .description(request.getDescription())
                         .technologies(request.getTechnologies() !=null ? request.getTechnologies() : List.of())
                         .displayOrder(request.getDisplayOrder() !=null ? request.getDisplayOrder(): 0)

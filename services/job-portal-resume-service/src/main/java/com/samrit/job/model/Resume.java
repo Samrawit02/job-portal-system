@@ -39,10 +39,8 @@ public class Resume {
     private String summary;
     private Integer completionScore=0;
     private Boolean isActive= true;
-
     private SkillCategory skillCategory;
-//    private Education education;
-    
+
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;

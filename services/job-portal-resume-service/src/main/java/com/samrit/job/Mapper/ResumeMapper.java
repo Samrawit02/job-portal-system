@@ -57,11 +57,13 @@ public class ResumeMapper {
                 .proficiencyLevel(skill.getProficiencyLevel())
                 .yearsOfExperience(skill.getYearsOfExperience())
                 .displayOrder(skill.getDisplayOrder())
+                .createdAt(skill.getCreatedAt())
                 .build();
     }
 
     public static EducationResponse toEducationResponse(Education education){
         if(education==null) return  null;
+        ResumeResponse resumeResponse = toResumeResponse(education.getResume());
 
         return EducationResponse.builder()
                 .id(education.getId())
@@ -69,6 +71,7 @@ public class ResumeMapper {
                 .degree(education.getDegree())
                 .grade(education.getGrade())
                 .fieldOfStudy(education.getFieldOfStudy())
+                .resumeResponse(resumeResponse)
                 .startDate(education.getStartDate())
                 .endDate(education.getEndDate())
                 .inCurrentlyStudying(education.getInCurrentlyStudying())
@@ -78,11 +81,13 @@ public class ResumeMapper {
     }
 
     public  static ProjectResponse toProjectResponse(Project project){
+        ResumeResponse resumeResponse = toResumeResponse(project.getResume());
         if(project==null) return null;
         return ProjectResponse.builder()
                 .id(project.getId())
                 .title(project.getTitle())
                 .description(project.getDescription())
+                .resumeResponse(resumeResponse)
                 .technologies(project.getTechnologies())
                 .projectUrl(project.getProjectUrl())
                 .sourceCodeUrl(project.getSourceCodeUrl())

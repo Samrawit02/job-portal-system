@@ -30,7 +30,7 @@ public class LanguageServiceImpl implements LanguageService {
                 .languageName(request.getLanguageName())
                 .resume(resume)
                 .languageProficiency(request.getLanguageProficiency())
-                .displayOrder(request.getDisplayOrder())
+                .displayOrder(request.getDisplayOrder() !=null ? request.getDisplayOrder() : 0)
                 .build();
         return ResumeMapper.toLanguageResponse(languageRepo.save(language));
 

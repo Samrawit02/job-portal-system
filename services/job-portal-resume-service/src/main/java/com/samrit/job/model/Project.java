@@ -30,7 +30,7 @@ public class Project {
     @Column(nullable = false)
     private String title;
     private String description;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> technologies = new ArrayList<>();
     private String  projectUrl;
     private String sourceCodeUrl;

@@ -19,6 +19,7 @@
     <modules>
         <module>eureka-server</module>
         <module>gateway</module>
+        <module>job-portal-config-server</module>
     </modules>
 
 

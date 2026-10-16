@@ -11,9 +11,11 @@
         <module name="job-portal-common" />
         <module name="job-portal-eureka-server" />
         <module name="job-portal-job-service" />
+        <module name="job-portal-config-server" />
         <module name="job-portal-resume-service" />
         <module name="job-portal-company-service" />
         <module name="gateway" />
+        <module name="job-portal-application-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -24,8 +26,10 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="eureka-server" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="job-portal-application-service" options="-parameters" />
       <module name="job-portal-common" options="-parameters" />
       <module name="job-portal-company-service" options="-parameters" />
+      <module name="job-portal-config-server" options="-parameters" />
       <module name="job-portal-eureka-server" options="-parameters" />
       <module name="job-portal-job-service" options="-parameters" />
       <module name="job-portal-resume-service" options="-parameters" />
