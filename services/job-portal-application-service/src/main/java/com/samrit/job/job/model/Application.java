@@ -32,7 +32,7 @@ public class Application {
     private Long companyId;
 
     @Column(nullable = false)
-    private Long EmployerId;
+    private Long employerId;
 
     @Column(nullable = false)
     private Long resumeId;

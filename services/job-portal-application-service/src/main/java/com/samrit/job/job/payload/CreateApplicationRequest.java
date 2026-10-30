@@ -20,6 +20,8 @@ public class CreateApplicationRequest {
 
     @NotNull(message = "Resume ID is required")
     private Long resumeId;
+    @NotNull(message = "Employer ID is required")
+    private  Long employerId;
 
     @Size(max = 3000, message = "Cover letter must not exceed 3000 characters")
     private String coverLetter;

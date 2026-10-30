@@ -19,9 +19,9 @@ import java.util.List;
 public class ApplicationResponse {
     private Long id;
     private UserResponse candidateId;
-    private JobResponse jobId;
-    private CompanyResponse companyId;
-    private Long EmployerId;
+    private JobResponse job;
+    private CompanyResponse company;
+    private Long employerId;
     private Long resumeId;
     private ApplicationStatus applicationStatus;
     private String coverLetter;
