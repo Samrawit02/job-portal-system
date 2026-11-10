@@ -47,42 +47,44 @@ server:
 spring:
   application:
     name: gateway-service
-  cloud:
-    gateway:
-      server:
-        webmvc:
-          routes:
-            - id: job-portal-user-service
-              uri: lb://JOB-PORTAL-USER-SERVICE
-              predicates:
-                  - Path=/auth/**, /users/**, /api/users/**
+  config:
+    import: "configserver:http://localhost:8888"
+#  cloud:
+#    gateway:
+#      server:
+#        webmvc:
+#          routes:
+#            - id: job-portal-user-service
+#              uri: lb://JOB-PORTAL-USER-SERVICE
+#              predicates:
+#                  - Path=/auth/**, /users/**, /api/users/**
+#
+#            - id: job-portal-company-service
+#              uri: lb://JOB-PORTAL-COMPANY-SERVICE
+#              predicates:
+#                - Path=/api/companies/**
+#
+#            - id: job-portal-job-service
+#              uri: lb://JOB-PORTAL-JOB-SERVICE
+#              predicates:
+#                - Path=/api/jobs/**, /api/job-categories/**, /api/job-skills/**, /api/job-tags/**
+#
+#            - id: job-portal-resume-service
+#              uri: lb://JOB-PORTAL-RESUME-SERVICE
+#              predicates:
+#                - Path=/api/resumes/**, /api/resume/**
 
-            - id: job-portal-company-service
-              uri: lb://JOB-PORTAL-COMPANY-SERVICE
-              predicates:
-                - Path=/api/companies/**
-
-            - id: job-portal-job-service
-              uri: lb://JOB-PORTAL-JOB-SERVICE
-              predicates:
-                - Path=/api/jobs/**, /api/job-categories/**, /api/job-skills/**, /api/job-tags/**
-
-            - id: job-portal-resume-service
-              uri: lb://JOB-PORTAL-RESUME-SERVICE
-              predicates:
-                - Path=/api/resumes/**, /api/resume/**
-
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    serviceUrl:
-      defaultZone: http://localhost:8070/eureka/
-
-logging:
-  level:
-    org.springframework.security: DEBUG
-    org.springframework.cloud.gateway: INFO
-    org.springframework.web: INFO
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    serviceUrl:
+#      defaultZone: http://localhost:8070/eureka/
+#
+#logging:
+#  level:
+#    org.springframework.security: DEBUG
+#    org.springframework.cloud.gateway: INFO
+#    org.springframework.web: INFO

@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/resume/{resumeId}/language")
+@RequestMapping("/api/resumes/{resumeId}/language")
 public class LanguageController {
 
     private final LanguageService languageService;

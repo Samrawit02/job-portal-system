@@ -35,15 +35,15 @@ public class SecurityConfig {
                         // Public auth endpoints
                         .requestMatchers("/auth/**").permitAll()
                         
-                        // Admin-only endpoints for user management
-                        .requestMatchers("/api/users/").hasRole("ADMIN")
-                        .requestMatchers("/api/users/*/activate").hasRole("ADMIN")
-                        .requestMatchers("/api/users/*/suspend").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
-
-                        // Authenticated endpoints for profile and general user lookup
-                        .requestMatchers("/api/users/profile").authenticated()
-                        .requestMatchers("/api/users/**").authenticated()
+//                        // Admin-only endpoints for user management
+//                        .requestMatchers("/api/users/").hasRole("ADMIN")
+//                        .requestMatchers("/api/users/*/activate").hasRole("ADMIN")
+//                        .requestMatchers("/api/users/*/suspend").hasRole("ADMIN")
+//                        .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
+//
+//                        // Authenticated endpoints for profile and general user lookup
+//                        .requestMatchers("/api/users/profile").authenticated()
+//                        .requestMatchers("/api/users/**").authenticated()
 
                         // Any other request requires authentication
                         .anyRequest().authenticated()
